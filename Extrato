@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Extrato Grid</title>
+  </head>
+  <body>
+  <?php
+
+  $extrato = array(
+  'saldo_anterior' => 10000,
+  'movimentacoes'   => [
+    ['28/05/2015', 'Transf. Bancária', -552200,],
+    ['28/05/2015', 'Aluguel', -440,],
+    ['01/06/2015', 'Recebimento de Título', 200,],
+    ['04/06/2015', 'Depósito', 150,],
+    ['10/06/2015', 'Conta de Luz', -350,],
+    ['25/06/2015', 'Taxas', -10,],
+  ]
+);
+  $saldo = $extrato['saldo_anterior'];
+  ?>
+    <center><h1>Extrato Bancário</h1></center>
+    <table border="1" width="500" align="center" celspacing="0" celpadding="0">
+      <thead>
+        <th>Data</th>
+        <th>Descrição</th>
+        <th>Valor</th>
+      </thead>
+      <!--
+      Paleta de cores:
+      * #66c169 : Verde para valor Positivo
+      * #f15e5e : Vermelho para valor negativo
+      -->
+      <tbody align="center">
+        <?php
+        if ($extrato['saldo_anterior']>=0)echo "<tr style='background-color: #66c169;'>";
+        else echo "<tr style='background-color: #f15e5e;'>";
+
+        ?>
+          <td colspan="2" align="right"><i><strong>Saldo Anterior</strong><i></td>
+          <td align="right">R$ <?php echo $extrato['saldo_anterior']?></td>
+        </tr>
+        <?php
+        $max= sizeof ($extrato['movimentacoes']);
+        for ($i=0; $i<$max;$i++){
+          if($extrato['movimentacoes'][$i][2]>=0) echo "<tr style='background-color: #66c169;'>";
+          else echo "<tr style='background-color: #f15e5e;'>";
+          $data = $extrato['movimentacoes'][$i][0];
+          $tipo = $extrato['movimentacoes'][$i][1];
+          $valor = $extrato['movimentacoes'][$i][2];
+          echo " <td>$data</td>
+                  <td>$tipo</td>
+              <td>R$ $valor</td>
+               </tr>
+        ";
+          $saldo=$saldo+$valor;
+        }
+        if($saldo>=0) echo "<tr style='background-color: #66c169;'>";
+          else echo "<tr style='background-color: #f15e5e;'>";
+        ?>
+        
+          <td colspan="2" align="right"><i><b>Saldo Final</b><i></td>
+          <td align="right">R$<?php echo $saldo;?></td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

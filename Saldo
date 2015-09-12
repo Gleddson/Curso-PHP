@@ -1,0 +1,10 @@
+<?php
+
+function calcularSaldoFinal($extrato){
+$saldo=$extrato['saldo_anterior'];
+$max=sizeof($extrato['movimentacoes']);
+for ($i=0; $i<$max; $i++)
+	$saldo=$saldo+$extrato['movimentacoes'][$i][2];
+
+return $saldo;
+}
